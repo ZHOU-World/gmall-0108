@@ -17,5 +17,7 @@ import java.util.Map;
 public interface SpuService extends IService<SpuEntity> {
 
     PageResultVo queryPage(PageParamVo paramVo);
+    //根据检索条件进行分页查询
+    PageResultVo querySpuByCidAndPage(PageParamVo paramVo, Long categoryId);
 }
 

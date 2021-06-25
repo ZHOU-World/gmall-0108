@@ -1,4 +1,4 @@
-package com.atguigu.gmall.pms.controller;
+package com.atguigu.gmall.wms.controller;
 
 import java.util.List;
 
@@ -13,41 +13,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.atguigu.gmall.pms.entity.SpuEntity;
-import com.atguigu.gmall.pms.service.SpuService;
+import com.atguigu.gmall.wms.entity.PurchaseEntity;
+import com.atguigu.gmall.wms.service.PurchaseService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
 
 /**
- * spu信息
+ * 采购信息
  *
  * @author ZHOU_World
  * @email 3361949746@qq.com
- * @date 2021-06-22 21:27:20
+ * @date 2021-06-24 16:02:39
  */
-@Api(tags = "spu信息 管理")
+@Api(tags = "采购信息 管理")
 @RestController
-@RequestMapping("pms/spu")
-public class SpuController {
+@RequestMapping("wms/purchase")
+public class PurchaseController {
 
     @Autowired
-    private SpuService spuService;
-//根据检索条件进行分页查询
-@GetMapping("category/{categoryId}")
-@ApiOperation("根据检索条件进行分页查询")
-public ResponseVo<PageResultVo> querySpuByCidAndPage(PageParamVo paramVo,
-                                                     @PathVariable("categoryId")Long categoryId){
-    PageResultVo pageResultVo = this.spuService.querySpuByCidAndPage(paramVo,categoryId);
-    return ResponseVo.ok(pageResultVo);
-}
+    private PurchaseService purchaseService;
+
     /**
      * 列表
      */
     @GetMapping
     @ApiOperation("分页查询")
-    public ResponseVo<PageResultVo> querySpuByPage(PageParamVo paramVo){
-        PageResultVo pageResultVo = spuService.queryPage(paramVo);
+    public ResponseVo<PageResultVo> queryPurchaseByPage(PageParamVo paramVo){
+        PageResultVo pageResultVo = purchaseService.queryPage(paramVo);
 
         return ResponseVo.ok(pageResultVo);
     }
@@ -58,10 +51,10 @@ public ResponseVo<PageResultVo> querySpuByCidAndPage(PageParamVo paramVo,
      */
     @GetMapping("{id}")
     @ApiOperation("详情查询")
-    public ResponseVo<SpuEntity> querySpuById(@PathVariable("id") Long id){
-		SpuEntity spu = spuService.getById(id);
+    public ResponseVo<PurchaseEntity> queryPurchaseById(@PathVariable("id") Long id){
+		PurchaseEntity purchase = purchaseService.getById(id);
 
-        return ResponseVo.ok(spu);
+        return ResponseVo.ok(purchase);
     }
 
     /**
@@ -69,8 +62,8 @@ public ResponseVo<PageResultVo> querySpuByCidAndPage(PageParamVo paramVo,
      */
     @PostMapping
     @ApiOperation("保存")
-    public ResponseVo<Object> save(@RequestBody SpuEntity spu){
-		spuService.save(spu);
+    public ResponseVo<Object> save(@RequestBody PurchaseEntity purchase){
+		purchaseService.save(purchase);
 
         return ResponseVo.ok();
     }
@@ -80,8 +73,8 @@ public ResponseVo<PageResultVo> querySpuByCidAndPage(PageParamVo paramVo,
      */
     @PostMapping("/update")
     @ApiOperation("修改")
-    public ResponseVo update(@RequestBody SpuEntity spu){
-		spuService.updateById(spu);
+    public ResponseVo update(@RequestBody PurchaseEntity purchase){
+		purchaseService.updateById(purchase);
 
         return ResponseVo.ok();
     }
@@ -92,7 +85,7 @@ public ResponseVo<PageResultVo> querySpuByCidAndPage(PageParamVo paramVo,
     @PostMapping("/delete")
     @ApiOperation("删除")
     public ResponseVo delete(@RequestBody List<Long> ids){
-		spuService.removeByIds(ids);
+		purchaseService.removeByIds(ids);
 
         return ResponseVo.ok();
     }

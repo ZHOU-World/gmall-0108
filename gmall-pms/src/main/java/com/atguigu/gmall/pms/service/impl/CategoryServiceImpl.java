@@ -1,6 +1,9 @@
 package com.atguigu.gmall.pms.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,7 +14,6 @@ import com.atguigu.gmall.common.bean.PageParamVo;
 import com.atguigu.gmall.pms.mapper.CategoryMapper;
 import com.atguigu.gmall.pms.entity.CategoryEntity;
 import com.atguigu.gmall.pms.service.CategoryService;
-
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEntity> implements CategoryService {
@@ -26,4 +28,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
         return new PageResultVo(page);
     }
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+    //根据父id查询分类
+    @Override
+    public List<CategoryEntity> queryCategoryByPid(Long parentId) {
+        QueryWrapper<CategoryEntity> wrapper = new QueryWrapper<>();
+
+        if(parentId!=-1){//不等于-1,根据条件查询
+            wrapper.eq("parent_id",parentId);
+        }
+        //等于-1，查询所有
+        //方法一：通过mapper获取
+        // List<CategoryEntity> categoryEntities = this.categoryMapper.selectList(wrapper);
+        //方法二：直接通过list,无需mapper
+        List<CategoryEntity> categoryEntities = this.list(wrapper);
+        return categoryEntities;
+    }
 }

@@ -2,6 +2,7 @@ package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
 
+import javax.ws.rs.Path;
+import javax.xml.ws.Response;
+
 /**
  * 商品属性
  *
@@ -33,6 +37,29 @@ public class AttrController {
 
     @Autowired
     private AttrService attrService;
+    //查询分类下的销售规格参数（sku）
+    @GetMapping("category/{cid}")
+    @ApiOperation("查询分类下的规格参数")
+                                            //优先考虑设置默认值，本例不适用默认值，直接设置为不是必须传递的参数
+    public ResponseVo<List<AttrEntity>> queryAttrByCidOrTypeOrSearchType(
+            @PathVariable("cid")Long cid,
+            @RequestParam(value = "type",required = false)Integer type,
+            @RequestParam(value = "searchType",required = false)Integer searchType){
+        List<AttrEntity> attrEntities = this.attrService.queryAttrByCidOrTypeOrSearchType(cid,type,searchType);
+        return ResponseVo.ok(attrEntities);
+    }
+
+    //查询分组下的规格参数(spu)
+    @GetMapping("group/{gid}")
+    @ApiOperation("查询分组下的规格参数")
+    public ResponseVo<List<AttrEntity>> queryAttrByGid(@PathVariable("gid")Long gid){
+//        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
+//        QueryWrapper<AttrEntity> group_id = wrapper.eq("group_id", gid);
+//        List<AttrEntity> list = this.attrService.list(group_id);
+//        return ResponseVo.ok(list);
+        List<AttrEntity> attrEntities = this.attrService.list(new QueryWrapper<AttrEntity>().eq("group_id", gid));
+        return ResponseVo.ok(attrEntities);
+    }
 
     /**
      * 列表
