@@ -13,6 +13,12 @@
     <name>gmall-sms</name>
     <description>谷粒商城营销系统</description>
     <dependencies>
+<!--        引入gmall-sms-interface工程-->
+        <dependency>
+            <groupId>com.atguigu</groupId>
+            <artifactId>gmall-sms-interface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>gmall-common</artifactId>

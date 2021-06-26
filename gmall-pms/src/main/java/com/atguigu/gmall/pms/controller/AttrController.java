@@ -19,7 +19,6 @@ import com.atguigu.gmall.pms.service.AttrService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
-
 import javax.ws.rs.Path;
 import javax.xml.ws.Response;
 

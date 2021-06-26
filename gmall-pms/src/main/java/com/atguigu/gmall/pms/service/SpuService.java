@@ -1,5 +1,6 @@
 package com.atguigu.gmall.pms.service;
 
+import com.atguigu.gmall.pms.vo.SpuVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
@@ -19,5 +20,7 @@ public interface SpuService extends IService<SpuEntity> {
     PageResultVo queryPage(PageParamVo paramVo);
     //根据检索条件进行分页查询
     PageResultVo querySpuByCidAndPage(PageParamVo paramVo, Long categoryId);
+    //大保存方法（九张表）
+    void bigSave(SpuVo spu);
 }
 
