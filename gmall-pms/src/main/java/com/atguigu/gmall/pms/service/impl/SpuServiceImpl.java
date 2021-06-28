@@ -9,6 +9,7 @@ import com.atguigu.gmall.pms.vo.SkuVo;
 import com.atguigu.gmall.pms.vo.SpuAttrValueVo;
 import com.atguigu.gmall.pms.vo.SpuVo;
 import com.atguigu.gmall.sms.vo.SkuSalesVo;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements
     SkuAttrValueService skuAttrValueService;
     @Autowired
     GmallSmsClient gmallSmsClient;
+    @Autowired
+    SpuDescService descService;
     @Override
     public PageResultVo queryPage(PageParamVo paramVo) {
         IPage<SpuEntity> page = this.page(
@@ -79,6 +82,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements
     }
 
     //大保存方法（九张表）
+    @GlobalTransactional
     @Override
     public void bigSave(SpuVo spu) {
         //1、保存spu相关的表（3张）
@@ -90,16 +94,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements
         Long spuId = spu.getId();
 
             //1.2保存pms_spu_desc
-        List<String> spuImages = spu.getSpuImages();
-        //判断是否为空
-        if(!CollectionUtils.isEmpty(spuImages)){
-            SpuDescEntity spuDescEntity = new SpuDescEntity();
-            spuDescEntity.setSpuId(spuId);
-            spuDescEntity.setDecript(StringUtils.join(spuImages,","));
-            this.spuDescMapper.insert(spuDescEntity);
-        }
+        this.descService.saveSpuDesc(spu, spuId);
 
-            //1.3保存pms_spu_attr_value
+        //1.3保存pms_spu_attr_value
         List<SpuAttrValueVo> baseAttrs = spu.getBaseAttrs();
         //判断是否为空
         if(!CollectionUtils.isEmpty(baseAttrs)){
@@ -170,4 +167,6 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, SpuEntity> implements
             this.gmallSmsClient.saleSales(skuSalesVo);
         });
     }
+
+
 }
