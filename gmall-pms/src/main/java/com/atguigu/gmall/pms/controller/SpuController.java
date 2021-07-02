@@ -34,6 +34,16 @@ public class SpuController {
 
     @Autowired
     private SpuService spuService;
+
+    //分页查询spu(feign传递值)
+    @PostMapping("page")
+    @ApiOperation("分页查询")
+    //返回当前页的分页数据
+    public ResponseVo<List<SpuEntity>> querySpuByPageJson(@RequestBody PageParamVo paramVo){
+        PageResultVo pageResultVo = spuService.queryPage(paramVo);
+        return ResponseVo.ok((List<SpuEntity>)pageResultVo.getList());
+    }
+
 //根据检索条件进行分页查询
 @GetMapping("category/{categoryId}")
 @ApiOperation("根据检索条件进行分页查询")
@@ -43,8 +53,7 @@ public ResponseVo<PageResultVo> querySpuByCidAndPage(PageParamVo paramVo,
     return ResponseVo.ok(pageResultVo);
 }
     /**
-     * 列表
-     */
+     * 列表*/
     @GetMapping
     @ApiOperation("分页查询")
     public ResponseVo<PageResultVo> querySpuByPage(PageParamVo paramVo){

@@ -40,3 +40,4 @@ mybatis-plus:
 logging:
   level:
     com.atguigu.gmall: debug
+

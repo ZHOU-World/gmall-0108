@@ -5,6 +5,7 @@ import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
 import com.atguigu.gmall.pms.entity.SpuAttrValueEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,5 +18,8 @@ import java.util.Map;
 public interface SpuAttrValueService extends IService<SpuAttrValueEntity> {
 
     PageResultVo queryPage(PageParamVo paramVo);
+
+    //接口七--根据caregoryId和spuId查询基本类型的搜索类型（search_tupe=1）的规格参数和值
+    List<SpuAttrValueEntity> querySearchAttrValuesBySpuId(Long cid, Long spuId);
 }
 

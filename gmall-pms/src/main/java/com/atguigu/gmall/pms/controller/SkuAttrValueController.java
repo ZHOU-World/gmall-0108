@@ -33,6 +33,15 @@ public class SkuAttrValueController {
 
     @Autowired
     private SkuAttrValueService skuAttrValueService;
+    //接口六--根据caregoryId和spuId查询基本类型的搜索类型（search_tupe=1）的规格参数和值
+    @GetMapping("search/{cid}")
+    public  ResponseVo<List<SkuAttrValueEntity>> querySearchAttrValueBySkuId(
+            @PathVariable("cid") Long cid,
+            @RequestParam("skuId") Long skuId
+    ){
+        List<SkuAttrValueEntity> skuAttrValueEntities = this.skuAttrValueService.querySearchAttrValueBySkuId(cid,skuId);
+        return ResponseVo.ok(skuAttrValueEntities);
+    }
 
     /**
      * 列表

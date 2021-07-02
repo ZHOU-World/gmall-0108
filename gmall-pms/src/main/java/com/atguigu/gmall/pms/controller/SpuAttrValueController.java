@@ -2,6 +2,8 @@ package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.pms.entity.SkuAttrValueEntity;
+import com.atguigu.gmall.pms.service.SkuAttrValueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
 
+import javax.xml.ws.Response;
+
 /**
  * spu属性值
  *
@@ -34,6 +38,15 @@ public class SpuAttrValueController {
     @Autowired
     private SpuAttrValueService spuAttrValueService;
 
+    //接口七--根据caregoryId和spuId查询基本类型的搜索类型（search_tupe=1）的规格参数和值
+    @GetMapping("search/{cid}")
+    public ResponseVo<List<SpuAttrValueEntity>> querySearchAttrValuesBySpuId(
+            @PathVariable("cid") Long cid,
+            @RequestParam("spuId") Long spuId
+    ){
+        List<SpuAttrValueEntity> spuAttrValueEntities = this.spuAttrValueService.querySearchAttrValuesBySpuId(cid,spuId);
+        return ResponseVo.ok(spuAttrValueEntities);
+    }
     /**
      * 列表
      */
