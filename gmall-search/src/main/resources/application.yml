@@ -20,6 +20,10 @@ spring:
   elasticsearch:
     rest:
       uris: http://192.168.131.128:9200
+  jackson:
+    default-property-inclusion: non_null #默认属性包含，non_null表示空的字段不显示在jackson数据中
+  thymeleaf:
+    cache: false #关闭缓存
 feign:
   sentinel:
     enabled: true

@@ -283,6 +283,8 @@ public class SearchServiceImpl {
                         .subAggregation(AggregationBuilders.terms("attrValueAgg").field("searchAttrs.attrValue"))
                 )
         );
+        //6、结果集过滤
+        sourceBuilder.fetchSource(new String[]{"skuId","title","subTitle","price","defaultImage"},null);
         System.out.println("DSL查询语句："+sourceBuilder);
         return sourceBuilder;
     }
