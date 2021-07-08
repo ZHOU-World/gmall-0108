@@ -21,6 +21,8 @@ public class CrosConfig {
         config.addAllowedMethod("*");
             //允许跨域访问的域名，*代表所有，无法携带cookie
         config.addAllowedOrigin("http://manager.gmall.com");
+        config.addAllowedOrigin("http://www.gmall.com");
+        config.addAllowedOrigin("http://gmall.com");
             //允许跨域访问的头信息
         config.addAllowedHeader("*");
             //允许携带cookie,如果允许了，Origin不能写成*

@@ -31,3 +31,12 @@ spring:
           uri: lb://search-service
           predicates:
             - Host=search.gmall.com
+        - id: index-route #同步请求路由
+          uri: lb://index-service
+          predicates:
+            - Host=gmall.com,www.gmall.com
+            #- 如果再加入一个路由，默认是and关系
+        - id: index-route2 #异步请求路由，只能通过路径方式路由（鼠标点在一级标题上，查询二级三级分类）
+          uri: lb://index-service
+          predicates:
+            - Path=/index/** #需要配置两个路由

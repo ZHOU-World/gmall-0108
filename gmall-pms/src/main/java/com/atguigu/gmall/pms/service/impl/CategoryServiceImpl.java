@@ -15,6 +15,8 @@ import com.atguigu.gmall.pms.mapper.CategoryMapper;
 import com.atguigu.gmall.pms.entity.CategoryEntity;
 import com.atguigu.gmall.pms.service.CategoryService;
 
+import javax.annotation.Resource;
+
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEntity> implements CategoryService {
 
@@ -28,7 +30,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
         return new PageResultVo(page);
     }
 
-    @Autowired
+    @Resource//@Autowired
     private CategoryMapper categoryMapper;
     //根据父id查询分类
     @Override
@@ -44,5 +46,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
         //方法二：直接通过list,无需mapper
         List<CategoryEntity> categoryEntities = this.list(wrapper);
         return categoryEntities;
+    }
+
+    //根据一级分类id(pid)获取二级分类三级分类
+    @Override
+    public List<CategoryEntity> queryLvl2WithSubsByPid(Long pid) {
+        return this.categoryMapper.queryLvl2WithSubsByPid(pid);
     }
 }

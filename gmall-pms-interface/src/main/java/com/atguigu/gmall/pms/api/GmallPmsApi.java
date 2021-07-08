@@ -36,6 +36,14 @@ public interface GmallPmsApi {
     @ApiOperation("详情查询")
     public ResponseVo<CategoryEntity> queryCategoryById(@PathVariable("id") Long id);
 
+    //根据父id查询分类(一级分类)
+    @GetMapping("pms/category/parent/{parentId}")
+    public ResponseVo<List<CategoryEntity>> queryCategoryByPid(@PathVariable("parentId") Long parentId);
+
+    //根据一级分类查询二级、三级分类
+    @GetMapping("pms/category/subs/{pid}")
+    public ResponseVo<List<CategoryEntity>> queryLvl2WithSubsByPid(@PathVariable("pid")Long pid);
+
     //接口六--根据caregoryId和spuId查询基本类型的搜索类型（search_tupe=1）的规格参数和值
     @GetMapping("pms/skuattrvalue/search/{cid}")
     public  ResponseVo<List<SkuAttrValueEntity>> querySearchAttrValueBySkuId(
@@ -49,6 +57,4 @@ public interface GmallPmsApi {
             @PathVariable("cid") Long cid,
             @RequestParam("spuId") Long spuId
     );
-
-
 }
