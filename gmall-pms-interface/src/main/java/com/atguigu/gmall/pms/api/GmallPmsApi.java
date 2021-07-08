@@ -19,6 +19,10 @@ public interface GmallPmsApi {
                     //返回值为当前页的分页数据
     public ResponseVo<List<SpuEntity>> querySpuByPageJson(@RequestBody PageParamVo paramVo);
 
+    //同步数据：根据spuId查询spu详情信息
+    @GetMapping("pms/spu/{id}")
+    public ResponseVo<SpuEntity> querySpuById(@PathVariable("id") Long id);
+
     //接口二 查询spu(统一规格)下的所有sku（不同）信息 api.gmall.com/pms/sku/spu/7
     @GetMapping("pms/sku/spu/{spuId}")
     public ResponseVo<List<SkuEntity>> querySkusBySpuId(@PathVariable("spuId")Long spuId);
@@ -45,4 +49,6 @@ public interface GmallPmsApi {
             @PathVariable("cid") Long cid,
             @RequestParam("spuId") Long spuId
     );
+
+
 }

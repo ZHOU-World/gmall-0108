@@ -24,6 +24,17 @@ spring:
     default-property-inclusion: non_null #默认属性包含，non_null表示空的字段不显示在jackson数据中
   thymeleaf:
     cache: false #关闭缓存
+  rabbitmq:
+    port: 5672
+    username: fengge
+    password: fengge
+    virtual-host: /fengge
+    host: 192.168.131.128
+    listener:
+      simple:
+        acknowledge-mode: manual #手动确认
+        prefetch: 1 #能者多劳
+        concurrency: 4 # 多线程消费
 feign:
   sentinel:
     enabled: true

@@ -41,7 +41,7 @@ class GmallSearchApplicationTests {
             this.restTemplate.putMapping(Goods.class);
         }
         Integer pageNum = 1;//第一页
-        Integer pageSize = 100;//100条数据
+        Integer pageSize = 10;//100条数据
         do{
             //创建page对象
             PageParamVo pageParamVo = new PageParamVo(pageNum, pageSize, null);
@@ -146,6 +146,6 @@ class GmallSearchApplicationTests {
             //不是最后一页，pageSize为100，继续循环，正好为100，在查询一次，下一页pageSize为零;是最后一页，pageSize不足100，在while循环中停止循环
             pageSize = spuEntities.size();
             pageNum++;
-        }while(pageSize==100);
+        }while(pageSize==10);
     }
 }

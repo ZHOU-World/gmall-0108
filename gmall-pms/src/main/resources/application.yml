@@ -28,6 +28,14 @@ spring:
   redis:
     port: 6379
     host: 192.168.131.128
+  rabbitmq:
+    port: 5672
+    username: fengge
+    password: fengge
+    virtual-host: /fengge
+    host: 192.168.131.128
+    publisher-confirm-type: correlated #异步监听确认
+    publisher-returns: true # 确认消息是否到达队列
 feign:
   sentinel:
     enabled: true
