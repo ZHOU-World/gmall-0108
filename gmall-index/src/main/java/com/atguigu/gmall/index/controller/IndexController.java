@@ -33,10 +33,49 @@ public class IndexController{
     }
 
     //异步请求方法，一级分类下的二级分类中、三级分类的集合
-    @GetMapping("index/cates//{pid}")
+    @GetMapping("index/cates/{pid}")
     @ResponseBody //异步请求返回json数据，加此注解返回名称
     public ResponseVo<List<CategoryEntity>> queryLvl2CategoriesByPid(@PathVariable("pid") Long pid){
         List<CategoryEntity> categoryEntities = this.indexService.queryLvl2CategoriesByPid(pid);
         return ResponseVo.ok(categoryEntities);
+    }
+
+    //测试本地锁
+    @GetMapping("index/test/lock")
+    @ResponseBody
+    public ResponseVo testLock(){
+        this.indexService.testLock();
+        return ResponseVo.ok();
+    }
+
+    //读锁
+    @GetMapping("index/test/read")
+    @ResponseBody
+    public ResponseVo testRead(){
+        this.indexService.testRead();
+        return ResponseVo.ok();
+    }
+
+    //写锁
+    @GetMapping("index/test/write")
+    @ResponseBody
+    public ResponseVo testWrite(){
+        this.indexService.testWrite();
+        return ResponseVo.ok();
+    }
+
+    //班长
+    @GetMapping("index/test/Latch")
+    @ResponseBody
+    public ResponseVo testLatch(){
+        this.indexService.testLatch();
+        return ResponseVo.ok("班长锁门。。。。");
+    }
+    //同学出门
+    @GetMapping("index/test/countDown")
+    @ResponseBody
+    public ResponseVo testCountDown(){
+        this.indexService.testCountDown();
+        return ResponseVo.ok("出来了一位同学。。。");
     }
 }
