@@ -2,6 +2,7 @@ package com.atguigu.gmall.index.service;
 
 import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.common.bean.ResponseVo;
+import com.atguigu.gmall.index.config.GmallCache;
 import com.atguigu.gmall.index.feign.GmallPmsClient;
 import com.atguigu.gmall.index.util.DistributedLock;
 import com.atguigu.gmall.pms.entity.CategoryEntity;
@@ -52,8 +53,16 @@ public class IndexService {
         List<CategoryEntity> categoryEntities = listResponseVo.getData();
         return categoryEntities;
     }
-    //异步请求方法，一级分类下的二级分类中、三级分类的集合
+
+    //异步请求方法，一级分类下的二级分类中、三级分类的集合（使用自定义注解）
+    @GmallCache(prefix = KEY_PREFIX,timeout = 259200,random = 14400,lock = LOCK_PREFIX)
     public List<CategoryEntity> queryLvl2CategoriesByPid(Long pid) {
+        ResponseVo<List<CategoryEntity>> listResponseVo = this.pmsClient.queryLvl2WithSubsByPid(pid);
+        return listResponseVo.getData();
+    }
+
+    //异步请求方法，一级分类下的二级分类中、三级分类的集合（原版本）
+    public List<CategoryEntity> queryLvl2CategoriesByPid2(Long pid) {
         //1、先查询缓存，缓存有数据，直接从缓存中获取数据
         String json = this.redisTemplate.opsForValue().get(KEY_PREFIX + pid);
         //判空，不为空，直接返回

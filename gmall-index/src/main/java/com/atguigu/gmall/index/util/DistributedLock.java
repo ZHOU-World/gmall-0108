@@ -1,10 +1,16 @@
 package com.atguigu.gmall.index.util;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnel;
+import com.google.common.hash.Funnels;
+import org.redisson.api.RBloomFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,6 +26,7 @@ public class DistributedLock {
     private StringRedisTemplate redisTemplate;
     //设置全局变量
     private Timer timer;
+
     //加锁
     public Boolean lock(String lockName,String uuid,Integer expire){
         //添加加锁的lua脚本
@@ -87,12 +94,40 @@ public class DistributedLock {
 
     }
     //定时器
-    public static void main(String[] args){
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("定时任务："+System.currentTimeMillis());
-            }
-        },5000,10000);//延迟5秒钟，每10秒钟执行一次
+//    public static void main(String[] args){
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("定时任务："+System.currentTimeMillis());
+//            }
+//        },5000,10000);//延迟5秒钟，每10秒钟执行一次
+//    }
+
+    //布隆过滤器
+    public static void main(String[] args) {
+        //第一个参数：放入二级制数组的元素类型
+        //第二个参数：期望数组中元素的数量
+        //第三个参数：误判率
+        BloomFilter<CharSequence> bloomFilter = BloomFilter.create(Funnels.stringFunnel(Charsets.UTF_8), 30, 0.3);
+        //向布隆过滤其中放入元素
+        bloomFilter.put("10");
+        bloomFilter.put("20");
+        bloomFilter.put("30");
+        bloomFilter.put("40");
+        bloomFilter.put("50");
+        bloomFilter.put("60");
+        bloomFilter.put("70");
+        bloomFilter.put("80");
+        System.out.println("====================");
+        //判断数据是否存在
+        System.out.println(bloomFilter.mightContain("10"));
+        System.out.println(bloomFilter.mightContain("40"));
+        System.out.println(bloomFilter.mightContain("80"));
+        System.out.println(bloomFilter.mightContain("100"));
+        System.out.println(bloomFilter.mightContain("101"));
+        System.out.println(bloomFilter.mightContain("105"));
+        System.out.println(bloomFilter.mightContain("110"));
+        System.out.println(bloomFilter.mightContain("130"));
+        System.out.println(bloomFilter.mightContain("145"));
     }
 }
