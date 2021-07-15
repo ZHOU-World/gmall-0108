@@ -40,3 +40,7 @@ spring:
           uri: lb://index-service
           predicates:
             - Path=/index/** #需要配置两个路由
+        - id: item-route
+          uri: lb://item-service
+          predicates:
+            - Host=item.gmall.com

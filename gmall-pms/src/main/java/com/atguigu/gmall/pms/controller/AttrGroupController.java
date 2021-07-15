@@ -2,6 +2,8 @@ package com.atguigu.gmall.pms.controller;
 
 import java.util.List;
 
+import com.atguigu.gmall.pms.entity.SpuDescEntity;
+import com.atguigu.gmall.pms.vo.GroupVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +22,8 @@ import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
 
+import javax.xml.ws.Response;
+
 /**
  * 属性分组
  *
@@ -34,6 +38,18 @@ public class AttrGroupController {
 
     @Autowired
     private AttrGroupService attrGroupService;
+
+    //根据分类id、spuId、skuId查询出所有的规格参数组及组下的规格参数和值
+    //现根据三级分类id查询分组id,再根据分组Id查询每个分组下的规格参数，再结合规格参数查询值（skuId，spuId）
+    @GetMapping("with/attr/value/{cid}")
+    public ResponseVo<List<GroupVo>> queryGroupsWithAttrValuesByCidAndSpuIdAndSkuId(
+            @PathVariable("cid")Long cid,
+            @RequestParam("spuId")Long spuId,
+            @RequestParam("skuId")Long skuId){
+        List<GroupVo> groupVos = this.attrGroupService
+                                .queryGroupsWithAttrValuesByCidAndSpuIdAndSkuId(cid,spuId,skuId);
+        return ResponseVo.ok(groupVos);
+    }
 
     //根据三级分类id查询分组
     @GetMapping("withattrs/{catId}")

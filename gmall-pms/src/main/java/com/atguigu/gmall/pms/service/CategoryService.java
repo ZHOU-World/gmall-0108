@@ -23,5 +23,8 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     //根据一级分类id(pid)获取二级分类三级分类
     List<CategoryEntity> queryLvl2WithSubsByPid(Long pid);
+
+    //根据三级分类的id(cid)获取一二三级分类
+    List<CategoryEntity> queryLvl123WithSubByCid3(Long cid);
 }
 
