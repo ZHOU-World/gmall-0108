@@ -15,12 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+
 /**
  * Date:2021/7/14
  * Author：ZHOU_World
@@ -40,6 +44,10 @@ public class ItemService {
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
 
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    //异步编排调用12个接口获取值
     public ItemVo loadData(Long skuId) {
         ItemVo itemVo = new ItemVo();
         //一一获取参数,通过远程调用接口
@@ -172,12 +180,44 @@ public class ItemService {
         }, threadPoolExecutor);
 
         //全部都执行完，返回itemVo结果
-        CompletableFuture.allOf(catesFuture,brandFuture,spuFuture,salesFuture,wareFuture,imagesFuture,
-                saleAttrs,saleAttrFuture,mappingFuture,descFuture,groupFuture).join();
+        CompletableFuture.allOf(catesFuture, brandFuture, spuFuture, salesFuture, wareFuture, imagesFuture,
+                saleAttrs, saleAttrFuture, mappingFuture, descFuture, groupFuture).join();
         return itemVo;
     }
 
-
+    //异步多线程执行页面静态化
+    public void asyncExecute(ItemVo itemVo){
+        threadPoolExecutor.execute(()->{
+            this.generateHtml(itemVo);
+        });
+    }
+    //生成静态页面
+    public void generateHtml(ItemVo itemVo) {
+        //模板引擎的上下文对象，通过该对象可以给模板传递动态数据
+        Context context = new Context();
+        context.setVariable("itemVo",itemVo);
+        //使用JDK1.8新语法
+        //模板引擎生成静态页面，1-模板名称2-上下文对象3-文件流
+        try (PrintWriter printWriter = new PrintWriter("D:\\project-0108\\html\\" + itemVo.getSkuId() + ".html")){
+            templateEngine.process("item", context, printWriter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /**原来的写法
+         PrintWriter printWriter=null;
+         try {
+            //文件流
+            printWriter = new PrintWriter("D:\\project-0108\\html" + itemVo.getSkuId() + ".html");
+            //模板引擎生成静态页面，1-模板名称2-上下文对象3-文件流
+            this.templateEngine.process("item", context, printWriter);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }finally{
+            if(printWriter!=null){
+                printWriter.close();
+            }
+        }*/
+    }
 
 
     //new MyThread().start();
@@ -261,7 +301,7 @@ public class ItemService {
 
             System.out.println("新任务");
         });
-        CompletableFuture.anyOf(future1,future2,future3,future4).join();
+        CompletableFuture.anyOf(future1, future2, future3, future4).join();
 //                .whenCompleteAsync((t, u) -> {
 //            System.out.println("=======whenCompleteAsync=========");
 //            System.out.println("上一个任务返回的结果集t:" + t);
