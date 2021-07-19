@@ -3,13 +3,9 @@ package com.atguigu.gmall.ums.controller;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.sf.jsqlparser.statement.select.KSQLWindow;
-import org.apache.commons.codec.cli.Digest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.atguigu.gmall.ums.entity.UserEntity;
+import com.atguigu.gmall.ums.api.entity.UserEntity;
 import com.atguigu.gmall.ums.service.UserService;
 import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.ResponseVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
-
-import javax.xml.ws.Response;
 
 /**
  * 用户表

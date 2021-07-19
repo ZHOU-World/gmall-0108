@@ -36,6 +36,9 @@ spring:
           predicates:
             - Host=gmall.com,www.gmall.com
             #- 如果再加入一个路由，默认是and关系
+          filters:
+            - AddResponseHeader=xxx,yyy
+            - Auth=/xxx
         - id: index-route2 #异步请求路由，只能通过路径方式路由（鼠标点在一级标题上，查询二级三级分类）
           uri: lb://index-service
           predicates:
@@ -44,3 +47,15 @@ spring:
           uri: lb://item-service
           predicates:
             - Host=item.gmall.com
+        - id: auth-route
+          uri: lb://auth-service
+          predicates:
+            - Host=sso.gmall.com
+        - id: cart-route
+          uri: lb://cart-service
+          predicates:
+            - Host=cart.gmall.com
+jwt:
+  pubFilePath: D:\project-0108\rsa\rsa.pub
+  cookieName: GMALL-TOKEN
+  token: unick

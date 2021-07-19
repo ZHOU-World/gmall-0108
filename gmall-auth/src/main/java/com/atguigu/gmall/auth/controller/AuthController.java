@@ -1,6 +1,15 @@
 package com.atguigu.gmall.auth.controller;
 
+import com.atguigu.gmall.auth.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Date:2021/7/16
@@ -9,5 +18,24 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class AuthController {
+    @Autowired
+    private AuthService authService;
 
+    @GetMapping("toLogin.html")
+    public String toLogin(@RequestParam("returnUrl")String returnUrl, Model model){
+        model.addAttribute("returnUrl",returnUrl);
+        return "login";
+    }
+    @PostMapping("login")
+    public String login(
+            @RequestParam("returnUrl")String returnUrl,
+            @RequestParam("loginName")String loginName,
+            @RequestParam("password")String password,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws Exception { //request为了后面获取ip地址   response为了后面设置cookie
+        this.authService.login(loginName,password,request,response);
+        return "redirect:"+returnUrl;//重定向
+        //forward转发
+    }
 }

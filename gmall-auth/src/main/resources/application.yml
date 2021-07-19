@@ -22,4 +22,11 @@ spring:
 feign:
   sentinel:
     enabled: true
+jwt:
+  pubFilePath: D:\project-0108\rsa\rsa.pub
+  priFilePath: D:\project-0108\rsa\rsa.pri
+  secret: 234 #最好定期修改
+  expire: 300 #分钟
+  cookieName: GMALL-TOKEN
+  unick: unick
 

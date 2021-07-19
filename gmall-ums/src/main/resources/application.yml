@@ -33,7 +33,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
-  type-aliases-package: com.atguigu.gmall.ums.entity
+  type-aliases-package: com.atguigu.gmall.ums.api.entity
 logging:
   level:
     com.atguigu.gmall: debug

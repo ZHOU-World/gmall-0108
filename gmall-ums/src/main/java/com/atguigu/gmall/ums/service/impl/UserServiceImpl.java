@@ -2,11 +2,9 @@ package com.atguigu.gmall.ums.service.impl;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,7 +13,7 @@ import com.atguigu.gmall.common.bean.PageResultVo;
 import com.atguigu.gmall.common.bean.PageParamVo;
 
 import com.atguigu.gmall.ums.mapper.UserMapper;
-import com.atguigu.gmall.ums.entity.UserEntity;
+import com.atguigu.gmall.ums.api.entity.UserEntity;
 import com.atguigu.gmall.ums.service.UserService;
 import org.springframework.util.CollectionUtils;
 

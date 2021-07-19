@@ -1,4 +1,4 @@
-package com.atguigu.gmall.ums.entity;
+package com.atguigu.gmall.ums.api.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,15 +8,15 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 关注活动表
+ * 用户登陆记录表
  * 
  * @author ZHOU_World
  * @email 3361949746@qq.com
  * @date 2021-07-16 00:36:21
  */
 @Data
-@TableName("ums_user_collect_subject")
-public class UserCollectSubjectEntity implements Serializable {
+@TableName("ums_user_login_log")
+public class UserLoginLogEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -27,26 +27,22 @@ public class UserCollectSubjectEntity implements Serializable {
 	/**
 	 * 用户id
 	 */
-	private Integer userId;
+	private Long userId;
 	/**
-	 * 活动id
-	 */
-	private Long subjectId;
-	/**
-	 * 活动名称
-	 */
-	private String subjectName;
-	/**
-	 * 活动默认图片
-	 */
-	private String subjectImage;
-	/**
-	 * 活动链接
-	 */
-	private String subjectUrl;
-	/**
-	 * 关注时间
+	 * 登陆时间
 	 */
 	private Date createTime;
+	/**
+	 * 登录ip
+	 */
+	private String ip;
+	/**
+	 * 登录城市
+	 */
+	private String city;
+	/**
+	 * 登录类型【0-web，1-移动】
+	 */
+	private Integer type;
 
 }
